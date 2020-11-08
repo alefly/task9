@@ -1,0 +1,6 @@
+C:\Users\катя\source\repos\task9\task9\bin\Debug\task9.exe.config
+C:\Users\катя\source\repos\task9\task9\bin\Debug\task9.exe
+C:\Users\катя\source\repos\task9\task9\bin\Debug\task9.pdb
+C:\Users\катя\source\repos\task9\task9\obj\Debug\task9.csprojAssemblyReference.cache
+C:\Users\катя\source\repos\task9\task9\obj\Debug\task9.exe
+C:\Users\катя\source\repos\task9\task9\obj\Debug\task9.pdb
