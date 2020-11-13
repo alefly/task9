@@ -1,24 +1,14 @@
 version: "3"
 
 services:
-    server:
-        image: alefly/server:v2
-        container_name: server
-        ports:
-          - "1500:8080"
-        depends_on:
-          - redis
-          - mongo
+    redis1:
+        image: redis:latest
+        container_name: redis1
         networks:
           - server_net
-        build:
-            context: .
-            dockerfile: Dockerfile
-    redis:
+    redis2:
         image: redis:latest
-        container_name: redis
-        ports:
-          - "6379:6379"
+        container_name: redis2
         networks:
           - server_net
     mongo:
@@ -28,5 +18,46 @@ services:
           - "27017:27017"
         networks:
           - server_net
+    balancer:
+        image: alefly/balanser:v9.4
+        container_name: balanser
+        ports:
+          - "1502:8082"
+        depends_on:
+          - server1
+          - server2
+        networks:
+          - server_net
+        build:
+            context: .
+            dockerfile: Dockerfile_balanser
+    server1:
+        image: alefly/server:v9.4
+        container_name: server1
+        ports:
+          - "1500:8080"
+        depends_on:
+          - redis1
+          - mongo
+        networks:
+          - server_net
+        build:
+            context: .
+            dockerfile: Dockerfile_server
+        command: [python, controller.py, "8080","6379","27017","redis1"]
+    server2:
+        image: alefly/server:v9.4
+        container_name: server2
+        ports:
+          - "1501:8081"
+        depends_on:
+          - redis2
+          - mongo
+        networks:
+          - server_net
+        build:
+            context: .
+            dockerfile: Dockerfile_server
+        command: [python, controller.py, "8081","6379","27017","redis2"]
 networks:
     server_net:

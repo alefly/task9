@@ -1,13 +1,10 @@
-﻿import redis, pymongo
+﻿import redis, pymongo, sys
 
 
-cache = redis.Redis(host='redis', port=6379, decode_responses=True, health_check_interval=30)
-mongoClient = pymongo.MongoClient(host='mongo', port=27017)
-mongo_table = mongoClient['hw9_1']['files']
+cache = redis.Redis(host=sys.argv[4], port=int(sys.argv[2]), decode_responses=True, health_check_interval=30)
+mongoClient = pymongo.MongoClient(host='mongo', port=int(sys.argv[3]))
+mongo_table = mongoClient['hw9_4']['files']
 cache.ping()
-
-def checkCache(file):
-    return cache.exists(file)
 
 
 def getFromCache(file):
@@ -15,7 +12,9 @@ def getFromCache(file):
 
 
 def getFromDB(file):
-    return mongo_table.find_one({'key': file})
+    resp = mongo_table.find_one({'key': file})
+    if resp:
+            return str(resp['value'])
 
 
 def deleteFromCache(file):

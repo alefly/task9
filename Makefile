@@ -10,7 +10,7 @@ stop:
 	docker-compose down
 	
 clean: stop
-	docker rmi alefly/server:v2 
+	docker rmi alefly/server:v9.4 alefly/balanser:v9.4 
 		
 healthcheck:
 	docker --version

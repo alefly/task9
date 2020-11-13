@@ -1,19 +1,18 @@
 ﻿import repository
 
 def get(file):
-	inCache = repository.checkCache(file)
-	if inCache:
+	data = repository.getFromCache(file)
+	if data:
 		return repository.getFromCache(file)
-	inDB = repository.checkDB(file)
-	if inDB:
-		data = repository.getFromDB(file)
+	data = repository.getFromDB(file)
+	if data:
 		repository.addToCache(file, data)
 		return data
-	return -1
+	else:
+		return -1
 
 def delete(file):
-	if(repository.checkCache(file)):
-		repository.deleteFromCache(file)
+	repository.deleteFromCache(file)
 	repository.deleteFromDB(file)
 
 def put(file, data):

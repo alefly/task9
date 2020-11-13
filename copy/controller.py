@@ -1,10 +1,10 @@
 ﻿from flask import Flask, request
-import json
-import service,time
+import json, sys
+import service, time
 
 app = Flask(__name__)
 
-@app.route('/<file>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/storage/<file>', methods=['GET', 'PUT', 'DELETE'])
 def storage(file):
 	if request.method == 'GET':
 		resp = service.get(file)
@@ -25,4 +25,4 @@ def storage(file):
 	return 'Error on server', 405
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=8080)
+	app.run(host='0.0.0.0', port=int(sys.argv[1]))
